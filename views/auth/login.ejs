@@ -1,67 +1,479 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Sistem Cuti Facultyware</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+        }
+
+        .login-page {
+            width: 100%;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 50% 50%;
+        }
+
+        /* LEFT SIDE */
+        .login-hero {
+            height: 100vh;
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.60), rgba(15, 23, 42, 0.76)),
+                url('/assets/images/bg-login.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            padding: 42px 64px;
+            color: #ffffff;
+        }
+
+        .hero-content {
+            max-width: 510px;
+        }
+
+        .hero-kicker {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 15px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            backdrop-filter: blur(10px);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.7px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .hero-title {
+            margin: 0 0 16px;
+            font-size: 39px;
+            line-height: 1.08;
+            font-weight: 900;
+            letter-spacing: -1px;
+            color: #ffffff;
+            text-shadow: 0 8px 24px rgba(0, 0, 0, 0.26);
+        }
+
+        .hero-desc {
+            margin: 0;
+            max-width: 500px;
+            font-size: 13px;
+            line-height: 1.62;
+            color: rgba(255, 255, 255, 0.94);
+            text-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+        }
+
+        .hero-note {
+            margin-top: 20px;
+            max-width: 490px;
+            padding-left: 15px;
+            border-left: 3px solid rgba(255, 255, 255, 0.55);
+            font-size: 12.5px;
+            line-height: 1.55;
+            color: rgba(255, 255, 255, 0.92);
+            text-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+        }
+
+        /* RIGHT SIDE */
+        .login-side {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 48px;
+            background:
+                radial-gradient(circle at top right, rgba(37, 99, 235, 0.10), transparent 34%),
+                linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 380px;
+            transform: translateY(-4px);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin-bottom: 18px;
+        }
+
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .brand-title {
+            display: block;
+            font-size: 17px;
+            font-weight: 900;
+            color: #0f172a;
+            line-height: 1.2;
+        }
+
+        .brand-subtitle {
+            display: block;
+            margin-top: 3px;
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .title {
+            margin: 0 0 5px;
+            font-size: 33px;
+            line-height: 1.08;
+            font-weight: 900;
+            letter-spacing: -0.8px;
+            color: #0f172a;
+        }
+
+        .subtitle {
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #64748b;
+        }
+
+        .title-line {
+            width: 100%;
+            height: 1px;
+            margin: 14px 0 18px;
+            border-radius: 999px;
+            background: linear-gradient(to right,
+                    transparent 0%,
+                    #dbeafe 16%,
+                    #93c5fd 50%,
+                    #dbeafe 84%,
+                    transparent 100%);
+        }
+
+        .login-card {
+            padding: 20px;
+            border-radius: 22px;
+            border: 1px solid rgba(147, 197, 253, 0.75);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(18px);
+            box-shadow:
+                0 12px 32px rgba(37, 99, 235, 0.07),
+                0 24px 56px rgba(15, 23, 42, 0.09);
+        }
+
+        .login-card.has-error {
+            border-color: #fecaca;
+            box-shadow:
+                0 10px 28px rgba(220, 38, 38, 0.06),
+                0 22px 48px rgba(15, 23, 42, 0.08);
+        }
+
+        .error-alert {
+            margin-bottom: 12px;
+            padding: 10px 12px;
+            border-radius: 13px;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+            font-size: 12px;
+            line-height: 1.35;
+        }
+
+        .error-alert strong {
+            display: block;
+            margin-bottom: 2px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 43px;
+            border-radius: 13px;
+            background: #eef6ff;
+            border: 1px solid #bfdbfe;
+            padding: 16px 40px 4px 13px;
+            font-size: 12.5px;
+            color: #0f172a;
+            outline: none;
+            transition: 0.2s ease;
+        }
+
+        .form-input.has-error {
+            border-color: #fecaca;
+        }
+
+        .form-input:hover {
+            background: #eaf2ff;
+            border-color: #93c5fd;
+        }
+
+        .form-input:focus {
+            background: #ffffff;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        .form-label {
+            position: absolute;
+            left: 13px;
+            top: 6px;
+            font-size: 8.5px;
+            font-weight: 900;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            color: #64748b;
+            pointer-events: none;
+        }
+
+        .password-wrap {
+            position: relative;
+        }
+
+        .eye-btn {
+            position: absolute;
+            right: 9px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 25px;
+            height: 25px;
+            border: none;
+            background: transparent;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: 0.2s ease;
+        }
+
+        .eye-btn:hover {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .eye-btn svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        .login-button {
+            width: 100%;
+            height: 43px;
+            margin-top: 1px;
+            border: none;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            color: #ffffff;
+            font-size: 13.5px;
+            font-weight: 900;
+            letter-spacing: 0.2px;
+            cursor: pointer;
+            transition: 0.22s ease;
+            box-shadow: 0 12px 24px rgba(37, 99, 235, 0.24);
+        }
+
+        .login-button:hover {
+            transform: translateY(-1px);
+            background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+            box-shadow: 0 14px 26px rgba(37, 99, 235, 0.28);
+        }
+
+        .footer {
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 10.5px;
+            color: #94a3b8;
+        }
+
+        @media (max-width: 980px) {
+
+            html,
+            body {
+                height: auto;
+                overflow: auto;
+            }
+
+            .login-page {
+                height: auto;
+                grid-template-columns: 1fr;
+            }
+
+            .login-hero {
+                min-height: 45vh;
+                height: auto;
+                padding: 36px 24px;
+            }
+
+            .login-side {
+                height: auto;
+                min-height: 55vh;
+                padding: 28px 20px;
+            }
+
+            .hero-title {
+                font-size: 32px;
+            }
+
+            .title {
+                font-size: 30px;
+            }
+
+            .login-box {
+                max-width: 100%;
+                transform: none;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
-    <div class="w-full max-w-md bg-white rounded-lg shadow-md p-8">
-        
-        <div class="text-center mb-8">
-            <h1 class="text-2xl font-bold text-gray-800">Facultyware</h1>
-            <p class="text-sm text-gray-500 mt-2">Sistem Pengajuan Cuti Pegawai</p>
-        </div>
+<body>
+    <main class="login-page">
+        <section class="login-hero">
+            <div class="hero-content">
+                <div class="hero-kicker">
+                    Fakultas Teknologi Informasi
+                </div>
 
-        <% if (error) { %>
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
-                <span class="block sm:inline"><%= error %></span>
+                <h1 class="hero-title">
+                    Sistem Informasi<br>
+                    Cuti Pegawai
+                </h1>
+
+                <p class="hero-desc">
+                    Portal administrasi cuti pegawai Fakultas Teknologi Informasi untuk membantu proses pengajuan,
+                    verifikasi, dan pemantauan cuti secara lebih tertib, transparan, dan terintegrasi.
+                </p>
+
+                <p class="hero-note">
+                    Akses sistem menggunakan akun yang telah terdaftar untuk melihat status pengajuan dan proses
+                    persetujuan cuti sesuai kewenangan pengguna.
+                </p>
             </div>
-        <% } %>
+        </section>
 
-        <form action="/login" method="POST" class="space-y-6">
-            
-            <div>
-                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    required 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-                    placeholder="Masukkan email Anda"
-                >
+        <section class="login-side">
+            <div class="login-box">
+                <div class="brand">
+                    <img src="/assets/images/logo-unand-biru.png" alt="Logo Universitas Andalas" class="brand-logo">
+
+                    <div>
+                        <strong class="brand-title">Fakultas Teknologi Informasi</strong>
+                        <span class="brand-subtitle">Universitas Andalas</span>
+                    </div>
+                </div>
+
+                <h1 class="title">Selamat Datang</h1>
+                <p class="subtitle">Masuk menggunakan akun yang telah terdaftar.</p>
+
+                <div class="title-line"></div>
+
+                <div class="login-card <%= (typeof error !== 'undefined' && error) ? 'has-error' : '' %>">
+                    <% if (typeof error !=='undefined' && error) { %>
+                        <div class="error-alert">
+                            <strong>Login gagal</strong>
+                            <span>
+                                <%= error %>
+                            </span>
+                        </div>
+                        <% } %>
+
+                            <form action="/login" method="POST" autocomplete="off">
+                                <div class="form-group">
+                                    <input type="email" id="email" name="email"
+                                        class="form-input <%= (typeof error !== 'undefined' && error) ? 'has-error' : '' %>"
+                                        placeholder=" " autocomplete="off" required>
+                                    <label for="email" class="form-label">Email</label>
+                                </div>
+
+                                <div class="form-group password-wrap">
+                                    <input type="password" id="password" name="password"
+                                        class="form-input <%= (typeof error !== 'undefined' && error) ? 'has-error' : '' %>"
+                                        placeholder=" " autocomplete="new-password" required>
+
+                                    <label for="password" class="form-label">Password</label>
+
+                                    <button type="button" class="eye-btn" onclick="togglePassword()"
+                                        aria-label="Tampilkan atau sembunyikan password">
+                                        <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12s-3.75 6.75-9.75 6.75S2.25 12 2.25 12z" />
+                                            <circle cx="12" cy="12" r="3" stroke-width="2" />
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <button type="submit" class="login-button">
+                                    Masuk Sekarang
+                                </button>
+                            </form>
+                </div>
+
+                <div class="footer">
+                    © 2026 Fakultas Teknologi Informasi, Universitas Andalas.
+                </div>
             </div>
+        </section>
+    </main>
 
-            <div>
-                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                <input 
-                    type="password" 
-                    id="password" 
-                    name="password" 
-                    required 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-                    placeholder="••••••••"
-                >
-            </div>
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
+            const eyeIcon = document.getElementById("eyeIcon");
 
-            <div>
-                <button 
-                    type="submit" 
-                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-                >
-                    Masuk
-                </button>
-            </div>
-        </form>
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
 
-        <div class="mt-8 text-center">
-            <p class="text-xs text-gray-400">&copy; 2026 Facultyware. All rights reserved.</p>
-        </div>
+                eyeIcon.innerHTML = `
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M3 3l18 18M10.58 10.58A2 2 0 0012 14a2 2 0 001.42-.58M9.88 4.24A9.8 9.8 0 0112 4c6 0 9.75 8 9.75 8a17.5 17.5 0 01-2.39 3.34M6.61 6.61C3.74 8.55 2.25 12 2.25 12s3.75 8 9.75 8a9.8 9.8 0 004.06-.88"
+          />
+        `;
+            } else {
+                passwordInput.type = "password";
 
-    </div>
-
+                eyeIcon.innerHTML = `
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12s-3.75 6.75-9.75 6.75S2.25 12 2.25 12z"
+          />
+          <circle cx="12" cy="12" r="3" stroke-width="2" />
+        `;
+            }
+        }
+    </script>
 </body>
+
 </html>
